@@ -1,0 +1,57 @@
+{
+  "name": "farmai-frontend",
+  "version": "1.0.0",
+  "description": "FarmAI - Smart Agriculture Management Platform Frontend",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "export": "next export"
+  },
+  "dependencies": {
+    "next": "^13.5.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-query": "^3.39.0",
+    "axios": "^1.5.0",
+    "leaflet": "^1.9.4",
+    "react-leaflet": "^4.2.1",
+    "chart.js": "^4.4.0",
+    "react-chartjs-2": "^5.2.0",
+    "date-fns": "^2.30.0",
+    "recharts": "^2.8.0",
+    "framer-motion": "^10.16.0",
+    "react-hook-form": "^7.45.0",
+    "react-select": "^5.7.0",
+    "react-datepicker": "^4.16.0",
+    "react-dropzone": "^14.2.0",
+    "socket.io-client": "^4.7.0",
+    "lucide-react": "^0.279.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^1.14.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.15",
+    "eslint": "^8.48.0",
+    "eslint-config-next": "^13.5.0",
+    "postcss": "^8.4.29",
+    "tailwindcss": "^3.3.3",
+    "@types/leaflet": "^1.9.4",
+    "@types/node": "^20.5.0",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.7"
+  },
+  "keywords": [
+    "agriculture",
+    "farming",
+    "ai",
+    "smart-farming",
+    "crop-management",
+    "weather",
+    "yield-prediction"
+  ],
+  "author": "FarmAI Team",
+  "license": "MIT"
+}

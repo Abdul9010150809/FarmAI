@@ -1,0 +1,189 @@
+/* Custom map styles for Leaflet maps */
+.map-container {
+  @apply rounded-lg overflow-hidden shadow-custom;
+}
+
+.map-controls {
+  @apply absolute top-4 right-4 z-10 space-y-2;
+}
+
+.map-legend {
+  @apply absolute bottom-4 left-4 z-10 bg-white p-3 rounded-lg shadow-custom;
+}
+
+.map-legend-title {
+  @apply font-semibold text-sm mb-2;
+}
+
+.map-legend-items {
+  @apply space-y-1;
+}
+
+.map-legend-item {
+  @apply flex items-center gap-2 text-xs;
+}
+
+.map-legend-color {
+  @apply w-4 h-4 rounded;
+}
+
+.map-popup {
+  @apply min-w-[200px];
+}
+
+.map-popup-title {
+  @apply font-semibold text-green-800 mb-2;
+}
+
+.map-popup-content {
+  @apply space-y-1 text-sm;
+}
+
+.map-popup-field {
+  @apply flex justify-between;
+}
+
+.map-popup-label {
+  @apply text-gray-600;
+}
+
+.map-popup-value {
+  @apply font-medium;
+}
+
+/* Leaflet specific overrides */
+.leaflet-container {
+  @apply font-sans text-sm;
+}
+
+.leaflet-popup-content-wrapper {
+  @apply rounded-lg shadow-custom;
+}
+
+.leaflet-popup-content {
+  @apply m-3;
+}
+
+.leaflet-control-zoom {
+  @apply border-0;
+}
+
+.leaflet-control-zoom a {
+  @apply bg-white text-gray-700 border border-gray-300 rounded-lg;
+}
+
+.leaflet-control-zoom a:hover {
+  @apply bg-gray-50 text-gray-900;
+}
+
+.leaflet-control-attribution {
+  @apply text-xs;
+}
+
+/* Custom marker styles */
+.custom-marker {
+  @apply bg-white p-1 rounded-full shadow-md border-2 border-white;
+}
+
+.marker-health-excellent {
+  border-color: #10B981;
+}
+
+.marker-health-good {
+  border-color: #84CC16;
+}
+
+.marker-health-fair {
+  border-color: #F59E0B;
+}
+
+.marker-health-poor {
+  border-color: #F97316;
+}
+
+.marker-health-critical {
+  border-color: #EF4444;
+}
+
+/* Weather station marker */
+.marker-weather {
+  @apply bg-blue-100 border-2 border-blue-500;
+}
+
+/* Soil sensor marker */
+.marker-soil {
+  @apply bg-orange-100 border-2 border-orange-500;
+}
+
+/* Irrigation marker */
+.marker-irrigation {
+  @apply bg-green-100 border-2 border-green-500;
+}
+
+/* Cluster markers */
+.marker-cluster {
+  @apply bg-green-500 text-white rounded-full flex items-center justify-center font-semibold;
+}
+
+.marker-cluster-small {
+  @apply w-8 h-8 text-xs;
+}
+
+.marker-cluster-medium {
+  @apply w-10 h-10 text-sm;
+}
+
+.marker-cluster-large {
+  @apply w-12 h-12 text-base;
+}
+
+/* Map layer controls */
+.map-layer-control {
+  @apply bg-white p-3 rounded-lg shadow-custom;
+}
+
+.map-layer-title {
+  @apply font-semibold mb-2;
+}
+
+.map-layer-options {
+  @apply space-y-2;
+}
+
+.map-layer-option {
+  @apply flex items-center gap-2;
+}
+
+.map-layer-checkbox {
+  @apply rounded border-gray-300 text-green-600 focus:ring-green-500;
+}
+
+.map-layer-label {
+  @apply text-sm;
+}
+
+/* Responsive map adjustments */
+@media (max-width: 768px) {
+  .map-controls {
+    @apply top-2 right-2;
+  }
+  
+  .map-legend {
+    @apply bottom-2 left-2 p-2;
+  }
+  
+  .map-popup {
+    min-width: 160px;
+  }
+}
+
+/* High contrast mode for maps */
+@media (prefers-contrast: high) {
+  .leaflet-control-zoom a {
+    @apply border-2;
+  }
+  
+  .custom-marker {
+    @apply border-2;
+  }
+}

@@ -1,0 +1,154 @@
+/* Custom chart styles for recharts and other chart libraries */
+.chart-container {
+  @apply bg-white rounded-lg shadow-custom p-4;
+}
+
+.chart-title {
+  @apply text-lg font-semibold text-gray-900 mb-4;
+}
+
+.chart-tooltip {
+  @apply bg-white p-3 rounded-lg shadow-custom border border-gray-200;
+}
+
+.chart-tooltip-label {
+  @apply font-semibold text-gray-900;
+}
+
+.chart-tooltip-value {
+  @apply text-green-600 font-medium;
+}
+
+.chart-legend {
+  @apply flex flex-wrap gap-4 mt-4 justify-center;
+}
+
+.chart-legend-item {
+  @apply flex items-center gap-2 text-sm;
+}
+
+.chart-legend-color {
+  @apply w-3 h-3 rounded-full;
+}
+
+/* Recharts specific overrides */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  @apply stroke-gray-200;
+}
+
+.recharts-text {
+  @apply text-sm fill-gray-600;
+}
+
+.recharts-line {
+  @apply stroke-width-2;
+}
+
+.recharts-area {
+  @apply opacity-60;
+}
+
+.recharts-bar-rectangle {
+  @apply cursor-pointer transition-opacity hover:opacity-80;
+}
+
+.recharts-polar-grid-concentric-polygon {
+  @apply stroke-gray-200;
+}
+
+.recharts-radar-polygon {
+  @apply fill-blue-50 stroke-blue-500;
+}
+
+.recharts-tooltip-cursor {
+  @apply fill-gray-100;
+}
+
+.recharts-reference-line-line {
+  @apply stroke-gray-400 stroke-dasharray-4;
+}
+
+/* Custom chart color themes */
+.chart-theme-agri .recharts-line {
+  stroke: #10B981;
+}
+
+.chart-theme-agri .recharts-area {
+  fill: url(#agriGradient);
+}
+
+.chart-theme-weather .recharts-line {
+  stroke: #3B82F6;
+}
+
+.chart-theme-weather .recharts-area {
+  fill: url(#weatherGradient);
+}
+
+.chart-theme-soil .recharts-line {
+  stroke: #8B5CF6;
+}
+
+.chart-theme-soil .recharts-area {
+  fill: url(#soilGradient);
+}
+
+/* SVG gradients for charts */
+.agri-gradient-stop-1 {
+  stop-color: #10B981;
+  stop-opacity: 0.8;
+}
+
+.agri-gradient-stop-2 {
+  stop-color: #10B981;
+  stop-opacity: 0.1;
+}
+
+.weather-gradient-stop-1 {
+  stop-color: #3B82F6;
+  stop-opacity: 0.8;
+}
+
+.weather-gradient-stop-2 {
+  stop-color: #3B82F6;
+  stop-opacity: 0.1;
+}
+
+.soil-gradient-stop-1 {
+  stop-color: #8B5CF6;
+  stop-opacity: 0.8;
+}
+
+.soil-gradient-stop-2 {
+  stop-color: #8B5CF6;
+  stop-opacity: 0.1;
+}
+
+/* Responsive chart adjustments */
+@media (max-width: 640px) {
+  .chart-container {
+    @apply p-3;
+  }
+  
+  .chart-title {
+    @apply text-base mb-3;
+  }
+  
+  .recharts-text {
+    @apply text-xs;
+  }
+}
+
+/* Print styles for charts */
+@media print {
+  .chart-container {
+    @apply shadow-none border-2 border-gray-200;
+  }
+  
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    stroke: #d1d5db;
+    stroke-width: 0.5;
+  }
+}
