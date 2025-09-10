@@ -1,188 +1,327 @@
-import { useState } from 'react';
-import Head from 'next/head';
-import { useAuth } from '../../contexts/AuthContext';
-import { useLanguage } from '../../hooks/useLanguage';
-import Card from '../../components/ui/Card';
-import Button from '../../components/ui/Button';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import {
+  Container,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  Box,
+  Avatar,
+  Button,
+  Divider,
+  Chip,
+  LinearProgress,
+  AppBar,
+  Toolbar,
+  IconButton
+} from '@mui/material';
+import {
+  ArrowBack,
+  Edit,
+  LocationOn,
+  CalendarToday,
+  Phone,
+  Email,
+  Farm,
+  TrendingUp,
+  WaterDrop,
+  Eco
+} from '@mui/icons-material';
 
 export default function Profile() {
-  const { user, updateProfile } = useAuth();
-  const { t } = useLanguage();
-  const [activeTab, setActiveTab] = useState('personal');
-  const [isEditing, setIsEditing] = useState(false);
-  const [formData, setFormData] = useState({
-    firstName: user?.firstName || '',
-    lastName: user?.lastName || '',
-    email: user?.email || '',
-    phone: user?.phone || '',
-    farmName: user?.farmName || '',
-    location: user?.location || '',
-    farmSize: user?.farmSize || '',
-    mainCrops: user?.mainCrops || []
-  });
+  const router = useRouter();
+  const [userData, setUserData] = useState(null);
+  const [farmStats, setFarmStats] = useState(null);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await updateProfile(formData);
-      setIsEditing(false);
-    } catch (error) {
-      console.error('Profile update failed:', error);
+  useEffect(() => {
+    // Mock user data
+    setUserData({
+      name: 'Rajesh Kumar',
+      email: 'rajesh.kumar@example.com',
+      phone: '+91 9876543210',
+      location: 'Punjab, India',
+      joinDate: 'January 15, 2023',
+      farmName: 'Green Fields Farm',
+      farmSize: '5 hectares',
+      experience: '8 years',
+      crops: ['Wheat', 'Rice', 'Vegetables']
+    });
+
+    // Mock farm statistics
+    setFarmStats({
+      cropHealth: 85,
+      waterEfficiency: 75,
+      soilQuality: 90,
+      yieldPrediction: 88
+    });
+  }, []);
+
+  const profileSections = [
+    {
+      title: 'Field Management',
+      description: 'Manage your farm fields and crop details',
+      icon: <Farm sx={{ fontSize: 30 }} />,
+      route: '/profile/fields',
+      color: '#4caf50'
+    },
+    {
+      title: 'Subscription',
+      description: 'View and manage your subscription plan',
+      icon: <TrendingUp sx={{ fontSize: 30 }} />,
+      route: '/profile/subscription',
+      color: '#2196f3'
+    },
+    {
+      title: 'Settings',
+      description: 'Account and application settings',
+      icon: <Eco sx={{ fontSize: 30 }} />,
+      route: '/profile/settings',
+      color: '#ff9800'
     }
-  };
+  ];
+
+  if (!userData || !farmStats) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Head>
-        <title>FarmAI - {t('Profile')}</title>
-      </Head>
+    <Box sx={{ flexGrow: 1, minHeight: '100vh', bgcolor: '#f5f5f5' }}>
+      <AppBar position="static" sx={{ bgcolor: '#2e7d32' }}>
+        <Toolbar>
+          <IconButton
+            edge="start"
+            color="inherit"
+            onClick={() => router.push('/dashboard')}
+            sx={{ mr: 2 }}
+          >
+            <ArrowBack />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            My Profile
+          </Typography>
+          <Button
+            color="inherit"
+            startIcon={<Edit />}
+            onClick={() => router.push('/profile/settings')}
+          >
+            Edit
+          </Button>
+        </Toolbar>
+      </AppBar>
 
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-3xl font-bold text-gray-900">{t('Profile Settings')}</h1>
-            <p className="text-gray-600">{t('Manage your account and farm details')}</p>
-          </div>
-          {!isEditing && (
-            <Button onClick={() => setIsEditing(true)}>
-              {t('Edit Profile')}
-            </Button>
-          )}
-        </div>
+      <Container maxWidth="lg" sx={{ py: 4 }}>
+        {/* User Profile Card */}
+        <Card sx={{ mb: 4 }}>
+          <CardContent sx={{ p: 4 }}>
+            <Grid container spacing={4} alignItems="center">
+              <Grid item xs={12} md={3} sx={{ textAlign: 'center' }}>
+                <Avatar
+                  sx={{
+                    width: 120,
+                    height: 120,
+                    fontSize: '3rem',
+                    bgcolor: '#2e7d32',
+                    mx: 'auto',
+                    mb: 2
+                  }}
+                >
+                  {userData.name.charAt(0)}
+                </Avatar>
+                <Button variant="outlined" size="small">
+                  Change Photo
+                </Button>
+              </Grid>
 
-        {/* Navigation Tabs */}
-        <div className="flex space-x-4 mb-6">
-          {['personal', 'farm', 'preferences', 'security'].map(tab => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 rounded-lg font-medium ${
-                activeTab === tab
-                  ? 'bg-green-600 text-white'
-                  : 'bg-white text-gray-600 border border-gray-300'
-              }`}
-            >
-              {t(tab.charAt(0).toUpperCase() + tab.slice(1))}
-            </button>
+              <Grid item xs={12} md={9}>
+                <Typography variant="h4" gutterBottom sx={{ color: '#2e7d32' }}>
+                  {userData.name}
+                </Typography>
+
+                <Box sx={{ mb: 3 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Email sx={{ mr: 1, color: 'text.secondary' }} />
+                    <Typography variant="body1">{userData.email}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <Phone sx={{ mr: 1, color: 'text.secondary' }} />
+                    <Typography variant="body1">{userData.phone}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <LocationOn sx={{ mr: 1, color: 'text.secondary' }} />
+                    <Typography variant="body1">{userData.location}</Typography>
+                  </Box>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <CalendarToday sx={{ mr: 1, color: 'text.secondary' }} />
+                    <Typography variant="body1">
+                      Member since {userData.joinDate}
+                    </Typography>
+                  </Box>
+                </Box>
+
+                <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1, mb: 2 }}>
+                  {userData.crops.map((crop, index) => (
+                    <Chip
+                      key={index}
+                      label={crop}
+                      variant="outlined"
+                      sx={{ borderColor: '#2e7d32' }}
+                    />
+                  ))}
+                </Box>
+              </Grid>
+            </Grid>
+
+            <Divider sx={{ my: 3 }} />
+
+            {/* Farm Information */}
+            <Grid container spacing={3}>
+              <Grid item xs={12} md={6}>
+                <Typography variant="h6" gutterBottom>
+                  Farm Information
+                </Typography>
+                <Typography variant="body1" paragraph>
+                  <strong>Farm Name:</strong> {userData.farmName}
+                </Typography>
+                <Typography variant="body1" paragraph>
+                  <strong>Farm Size:</strong> {userData.farmSize}
+                </Typography>
+                <Typography variant="body1">
+                  <strong>Farming Experience:</strong> {userData.experience}
+                </Typography>
+              </Grid>
+
+              <Grid item xs={12} md={6}>
+                <Typography variant="h6" gutterBottom>
+                  Farm Statistics
+                </Typography>
+                
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="body2" gutterBottom>
+                    Crop Health
+                  </Typography>
+                  <LinearProgress
+                    variant="determinate"
+                    value={farmStats.cropHealth}
+                    sx={{ height: 8, borderRadius: 4, mb: 1 }}
+                  />
+                  <Typography variant="body2" color="text.secondary">
+                    {farmStats.cropHealth}% Excellent
+                  </Typography>
+                </Box>
+
+                <Box sx={{ mb: 2 }}>
+                  <Typography variant="body2" gutterBottom>
+                    Water Efficiency
+                  </Typography>
+                  <LinearProgress
+                    variant="determinate"
+                    value={farmStats.waterEfficiency}
+                    sx={{ height: 8, borderRadius: 4, mb: 1 }}
+                  />
+                  <Typography variant="body2" color="text.secondary">
+                    {farmStats.waterEfficiency}% Good
+                  </Typography>
+                </Box>
+
+                <Box>
+                  <Typography variant="body2" gutterBottom>
+                    Soil Quality
+                  </Typography>
+                  <LinearProgress
+                    variant="determinate"
+                    value={farmStats.soilQuality}
+                    sx={{ height: 8, borderRadius: 4, mb: 1 }}
+                  />
+                  <Typography variant="body2" color="text.secondary">
+                    {farmStats.soilQuality}% Excellent
+                  </Typography>
+                </Box>
+              </Grid>
+            </Grid>
+          </CardContent>
+        </Card>
+
+        {/* Profile Sections */}
+        <Typography variant="h5" gutterBottom sx={{ mb: 3 }}>
+          Manage Your Account
+        </Typography>
+
+        <Grid container spacing={3}>
+          {profileSections.map((section, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Card
+                sx={{
+                  textAlign: 'center',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s',
+                  '&:hover': {
+                    transform: 'translateY(-4px)'
+                  }
+                }}
+                onClick={() => router.push(section.route)}
+              >
+                <CardContent sx={{ p: 4 }}>
+                  <Box sx={{ color: section.color, mb: 2 }}>
+                    {section.icon}
+                  </Box>
+                  <Typography variant="h6" gutterBottom>
+                    {section.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" paragraph>
+                    {section.description}
+                  </Typography>
+                  <Button
+                    variant="outlined"
+                    size="small"
+                    sx={{ borderColor: section.color, color: section.color }}
+                  >
+                    Manage
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
           ))}
-        </div>
+        </Grid>
 
-        <Card className="p-6">
-          {activeTab === 'personal' && (
-            <form onSubmit={handleSubmit}>
-              <h2 className="text-xl font-semibold mb-4">{t('Personal Information')}</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t('First Name')}
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.firstName}
-                    onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                    disabled={!isEditing}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100"
+        {/* Recent Activity */}
+        <Card sx={{ mt: 4 }}>
+          <CardContent>
+            <Typography variant="h6" gutterBottom>
+              Recent Activity
+            </Typography>
+            <Box>
+              {[
+                'Updated field irrigation schedule',
+                'Completed soil health assessment',
+                'Received crop health report',
+                'Scheduled harvest for next week'
+              ].map((activity, index) => (
+                <Box
+                  key={index}
+                  sx={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    py: 2,
+                    borderBottom: index < 3 ? '1px solid #e0e0e0' : 'none'
+                  }}
+                >
+                  <Box
+                    sx={{
+                      width: 8,
+                      height: 8,
+                      borderRadius: '50%',
+                      bgcolor: '#4caf50',
+                      mr: 2
+                    }}
                   />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t('Last Name')}
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.lastName}
-                    onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                    disabled={!isEditing}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100"
-                  />
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t('Email')}
-                  </label>
-                  <input
-                    type="email"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    disabled={!isEditing}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    {t('Phone Number')}
-                  </label>
-                  <input
-                    type="tel"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    disabled={!isEditing}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg disabled:bg-gray-100"
-                  />
-                </div>
-              </div>
-
-              {isEditing && (
-                <div className="flex space-x-3">
-                  <Button type="submit" variant="primary">
-                    {t('Save Changes')}
-                  </Button>
-                  <Button type="button" variant="outline" onClick={() => setIsEditing(false)}>
-                    {t('Cancel')}
-                  </Button>
-                </div>
-              )}
-            </form>
-          )}
-
-          {activeTab === 'farm' && (
-            <div>
-              <h2 className="text-xl font-semibold mb-4">{t('Farm Details')}</h2>
-              {/* Farm details form */}
-            </div>
-          )}
-
-          {activeTab === 'preferences' && (
-            <div>
-              <h2 className="text-xl font-semibold mb-4">{t('Preferences')}</h2>
-              {/* Preferences form */}
-            </div>
-          )}
-
-          {activeTab === 'security' && (
-            <div>
-              <h2 className="text-xl font-semibold mb-4">{t('Security')}</h2>
-              {/* Security settings */}
-            </div>
-          )}
+                  <Typography variant="body2">{activity}</Typography>
+                </Box>
+              ))}
+            </Box>
+          </CardContent>
         </Card>
-
-        {/* Account Stats */}
-        <Card className="p-6 mt-6">
-          <h2 className="text-xl font-semibold mb-4">{t('Account Statistics')}</h2>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">12</div>
-              <div className="text-sm text-gray-600">{t('Fields')}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">5</div>
-              <div className="text-sm text-gray-600">{t('Crop Types')}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">89%</div>
-              <div className="text-sm text-gray-600">{t('Success Rate')}</div>
-            </div>
-            <div className="text-center">
-              <div className="text-2xl font-bold text-green-600">2Y</div>
-              <div className="text-sm text-gray-600">{t('Member Since')}</div>
-            </div>
-          </div>
-        </Card>
-      </div>
-    </div>
+      </Container>
+    </Box>
   );
 }
